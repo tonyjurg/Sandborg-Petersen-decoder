@@ -19,6 +19,6 @@ The licensor cannot revoke these freedoms as long as you follow the license term
 ### Under the following terms:
 
  * **Attribution**
-   * When deriving software or a dataset, attribute the work by refering to: "[https://github.com/tonyjurg/BHSaddons](https://github.com/tonyjurg/BHSaddons)" and/or [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14051604.svg)](https://doi.org/10.5281/zenodo.14051604). You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+   * When deriving software or a dataset, attribute the work by refering to: "[https://github.com/tonyjurg/BHSaddons](https://github.com/tonyjurg/Sandborg-Petersen-decoder)" and/or [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14051604.svg)](https://doi.org/10.5281/zenodo.14051604). You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
       
 **No additional restrictions** — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
