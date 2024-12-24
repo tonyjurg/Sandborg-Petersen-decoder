@@ -33,7 +33,7 @@ The HTML implementation depends on Javascript being enabled. Either in the &lt;H
     }
   </script>
 ```
- In the &lt;HTML&gt; section include the following:
+ In the &lt;BODY&gt; section include the following:
  
  ``` html
  <button onclick="openMinimalWindow()">Open Morph decoder</button>
