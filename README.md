@@ -12,7 +12,7 @@ An online version of the decoder is available [here](https://tonyjurg.github.io/
 Three functionaly equivalent coding implementations are stored on this repository:
 
    - [HTML with javascript](javascript/SP-Morph-decode.html)
-   - [python](python/SP-Morph-decode.py)
+   - [Python](python/SP-Morph-decode.py)
 
 # Definitional document
  
