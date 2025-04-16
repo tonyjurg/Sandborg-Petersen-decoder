@@ -1,6 +1,5 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14551057.svg)](https://doi.org/10.5281/zenodo.14551057) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_NC-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
-
 # Sandborg-Petersen Morphology Decoder
 
 The morphological decoder provided here is a lightweight decoder for the Sandborg-Petersen Morphology which is primarily tailored for Koine Greek, especially as it appears in New Testament studies and similar texts.
@@ -44,7 +43,8 @@ This will put a button on your page similair to the image below:
 
 <img src='images/button.jpg'>
 
-When no scripting is enabled, you can just add a HTML link:
+When no scripting is enabled, you can just add a direct HTML link:
+
 ```html
   <A HREF="https://tonyjurg.github.io/Sandborg-Petersen-decoder/" TARGET="_blank">Open Morph decoder</A>
 ```
