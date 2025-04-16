@@ -9,7 +9,7 @@ An online version of the decoder is available [here](https://tonyjurg.github.io/
 
 # Decoder formats
 
-Three functionaly equivalent coding implementations are stored on this repository:
+Two functionaly equivalent coding implementations are stored on this repository:
 
    - [HTML with javascript](javascript/SP-Morph-decode.html)
    - [Python](python/SP-Morph-decode.py)
