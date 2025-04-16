@@ -20,13 +20,13 @@ Two functionaly equivalent coding implementations are stored on this repository:
 
 # Integrating in HTML page
 
-The HTML implementation depends on Javascript being enabled. Either in the &lt;HEADER&gt; or &lt;BODY&gt; section define the following small script:
+If you have Javascript enabled you can use this HTML implementation. Either in the &lt;HEADER&gt; or &lt;BODY&gt; section define the following small script:
 
 ``` html
  <script>
     function openMinimalWindow() {
       window.open(
-        'yourPage.html',
+        'https://tonyjurg.github.io/Sandborg-Petersen-decoder/',
         '_blank',
         'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=800,height=600'
       );
@@ -39,6 +39,15 @@ The HTML implementation depends on Javascript being enabled. Either in the &lt;H
  <button onclick="openMinimalWindow()">Open Morph decoder</button>
  
  ```
+
+This will put a button on your page similair to the image below:
+
+<img src='images/button.jpg'>
+
+When no scripting is enabled, you can just add a HTML link:
+```html
+  <A HREF="https://tonyjurg.github.io/Sandborg-Petersen-decoder/" TARGET="_blank">Open Morph decoder</A>
+```
 
 # Tag validation agains MACULA GNT dataset
 
