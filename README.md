@@ -39,3 +39,7 @@ The HTML implementation depends on Javascript being enabled. Either in the &lt;H
  <button onclick="openMinimalWindow()">Open Morph decoder</button>
  
  ```
+
+# Tag validation agains MACULA GNT dataset
+
+ - see notebook: [Check SP-Morphs in MACULA XML dataset against documentated tags](testing/SP-Morphs-used-in-MACULA.ipynb).
