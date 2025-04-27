@@ -5,7 +5,7 @@ authors:
   given-names: "Tony"
   orcid: "https://orcid.org/0000-0002-0343-1346"
 title: "Sandborg-Petersen-decoder - Lightweight decoder for the Sandborg-Petersen Morphology"
-version: 1.0
+version: v1.1
 doi: 10.5281/zenodo.14551056
-date-released: 2024-12-24
+date-released: 2025-04-27
 url: "https://github.com/tonyjurg/Sandborg-Petersen-decoder"
