@@ -52,3 +52,7 @@ When no scripting is enabled, you can just add a direct HTML link:
 # Tag validation agains MACULA GNT dataset
 
  - See notebook: [Check SP-Morphs in MACULA XML dataset against documentated tags](testing/SP-Morphs-used-in-MACULA.ipynb).
+
+# Acknowledgements
+
+- ['Parsing Information for Robinson-like parsing tags Adapted from Ulrik Sandborg-Petersen's Description for Tischendorf 8th'](https://github.com/biblicalhumanities/Nestle1904/blob/master/morph/parsing.txt).
