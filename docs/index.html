@@ -238,8 +238,14 @@
 				output["Gender of Possessed"] = genderMap[input[4]] || "Unknown";
 			}
 			else if (["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-", "S-"].includes(pos)) {
-				// The second part contains case, number, and gender
-				if (input.length >= 3) {
+				// The second part contains person, case , and number if it starts with a digit [1-3]
+				if (input.length >= 3 && /^[123]$/.test(input[0])) {
+					output["Person"] = personMap[input[0]] || "Unknown";
+					output["Case"] = caseMap[input[1]] || "Unknown";
+					output["Number"] = numberMap[input[2]] || "Unknown";
+				}
+				// Else the second part contains case, number, and gender
+				else if (input.length >= 3) {
 					output["Case"] = caseMap[input[0]] || "Unknown";
 					output["Number"] = numberMap[input[1]] || "Unknown";
 					output["Gender"] = genderMap[input[2]] || "Unknown";
@@ -255,6 +261,6 @@
             document.getElementById("decodedOutput").textContent = JSON.stringify(output, null, 2);
         }
     </script>
-<small><a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder">https://github.com/tonyjurg/Sandborg-Petersen-decoder</a></small>
+<small><a href="https://github.com/tonyjurg/REMA-Sandborg-Petersen-decoder">https://github.com/tonyjurg/REMA-Sandborg-Petersen-decoder</a></small>
 </body>
 </html>

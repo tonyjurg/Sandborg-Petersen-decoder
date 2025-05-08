@@ -215,9 +215,15 @@ def decodeTag(tagInput):
         output["Gender of Possessed"] = genderMap.get(input_str[4], "Unknown")
 
     elif pos in ["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-", "S-"]:
-        # The second part contains case, number, and gender
-        if len(input_str) >= 3:
-            output["Case"] = caseMap.get(input_str[0], "Unknown")
+        # Pattern 1: [person, case, number]
+        if len(input_str) >= 3 and re.match(r'^[123]$', input_str[0]):
+            output["Person"] = personMap.get(input_str[0], "Unknown")
+            output["Case"]   = caseMap.get(input_str[1], "Unknown")
+            output["Number"] = numberMap.get(input_str[2], "Unknown")
+    
+        # Pattern 2: [case, number, gender]
+        elif len(input_str) >= 3:
+            output["Case"]   = caseMap.get(input_str[0], "Unknown")
             output["Number"] = numberMap.get(input_str[1], "Unknown")
             output["Gender"] = genderMap.get(input_str[2], "Unknown")
 
