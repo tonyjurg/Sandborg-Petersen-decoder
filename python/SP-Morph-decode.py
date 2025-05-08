@@ -41,7 +41,8 @@ caseMap = {
 # grammatical number mapping
 numberMap = {
     "S": "Singular",
-    "P": "Plural"
+    "P": "Plural",
+    "D": "Dual"
 }
 
 # grammatical gender mapping
