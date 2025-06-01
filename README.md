@@ -64,11 +64,9 @@ If you prefer a simple hyperlink that opens in a full browser tab, just use:
 
 ## Open decoder for a specific tags
 
-You can also open the decoder pre-filled for a specific tag by appending a `tag` query parameter to its URL. In our HTML/JavaScript implementation, a small script reads the URL’s `tag` parameter and uses it to initialize the decoder, which is especially handy if you’ve already run your analysis in Python. 
+You can also open the decoder pre-filled for a specific tag by appending a `tag` query parameter to its URL. In our HTML/JavaScript implementation, a small script reads the URL’s `tag` parameter and uses it to initialize the decoder, which is especially handy if you’ve already run your analysis in Python.
 
-In the following Python code we make the tag column in a dataframe clickable to fire off the analysis tool.
-
-```python
+```Python
 import pandas as pd
 from IPython.display import HTML
 
@@ -78,7 +76,6 @@ base_url = "https://tonyjurg.github.io/Sandborg-Petersen-decoder/?tag="
 results = [
     ("Βίβλος", "N-NSF"),
     ("λόγος",  "N-NSM"),
-    # …
 ]
 
 # Build dataframe
@@ -89,9 +86,34 @@ df["Tag"] = df["Tag"].apply(lambda tag: f'<a href="{base_url}{tag}" target="deco
 # Display as an HTML table with clickable links
 HTML(df.to_html(escape=False, index=False))
 ```
+
+This will produce the following table:
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Word</th>
+      <th>Tag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Βίβλος</td>
+      <td><a href="https://tonyjurg.github.io/Sandborg-Petersen-decoder/?tag=N-NSF" target="decoder">N-NSF</a></td>
+    </tr>
+    <tr>
+      <td>λόγος</td>
+      <td><a href="https://tonyjurg.github.io/Sandborg-Petersen-decoder/?tag=N-NSM" target="decoder">N-NSM</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
 Note the use of `target="decoder"` would normally reuse a single named window. However, in a sanitized environment like Jupyter Notebook, each click opens a new window because Jupyter’s security model isolates browsing contexts. In contrast, when you save the same HTML locally (or serve it as a regular web page), clicks targeting the same window name correctly reuse that single window.
 
-# Tag validation agains MACULA GNT dataset
+See the following small [Jupyter Notebook](create_clickable_links.ipynb) to see the code in action.
+
+# Tag validation agains the MACULA GNT dataset
 
  - See notebook: [Check SP-Morphs in MACULA XML dataset against documentated tags](testing/SP-Morphs-used-in-MACULA.ipynb).
 
