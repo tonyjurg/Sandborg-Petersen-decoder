@@ -1,3 +1,6 @@
+import re
+
+
 # Main Part of Speech mapping
 posMap = {
     "N-PRI": "Proper Noun Indeclinable",  # first the subset since decoding is based on 'first match'
@@ -176,7 +179,7 @@ def decodeTag(tagInput):
                 output["Tense"] = "Unknown"
 
         # Analyze Person/Number or Case/Number/Gender for the second part
-        if len(parts) > 1:
+        if len(parts) > 1 and output.get("Mood") != "Infinitive":
             secondPart = parts[1]
             if output.get("Mood") == "Participle" and len(secondPart) >= 3:
                 output["Case"] = caseMap.get(secondPart[0], "Unknown")
@@ -186,18 +189,14 @@ def decodeTag(tagInput):
                 output["Person"] = personMap.get(secondPart[0], "Unknown")
                 output["Number"] = numberMap.get(secondPart[1], "Unknown")
 
-        # Analyze verb extra info or suffix in the third part
-        if len(parts) > 2:
-            thirdPart = parts[2]
-            extraKey = None
-            for vk in verbExtraMap.keys():
-                if vk in thirdPart:
-                    extraKey = vk
-                    break
-            if extraKey:
-                output["Verb Extra"] = verbExtraMap[extraKey]
+        # Infinitives have no person/number segment, so their modifier is second.
+        modifier_index = 1 if output.get("Mood") == "Infinitive" else 2
+        if len(parts) > modifier_index:
+            modifier = f"-{parts[modifier_index]}"
+            if modifier in verbExtraMap:
+                output["Verb Extra"] = verbExtraMap[modifier]
             else:
-                output["Suffix"] = suffixMap.get(thirdPart, "Unknown")
+                output["Suffix"] = suffixMap.get(modifier, "Unknown")
 
     # Reflexive Pronoun
     elif pos in ["F-"]:
@@ -217,7 +216,7 @@ def decodeTag(tagInput):
 
     elif pos in ["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-", "S-"]:
         # Pattern 1: [person, case, number]
-        if len(input_str) >= 3 and re.match(r'^[123]$', input_str[0]):
+        if len(input_str) >= 3 and input_str[0] in personMap:
             output["Person"] = personMap.get(input_str[0], "Unknown")
             output["Case"]   = caseMap.get(input_str[1], "Unknown")
             output["Number"] = numberMap.get(input_str[2], "Unknown")
@@ -229,14 +228,41 @@ def decodeTag(tagInput):
             output["Gender"] = genderMap.get(input_str[2], "Unknown")
 
     # Decode suffix if present
-    for suf in suffixMap.keys():
-        if input_str.endswith(suf):
-            output["Suffix"] = suffixMap[suf]
-            break
+    if "Verb Extra" not in output:
+        for suf in suffixMap.keys():
+            if input_str.endswith(suf):
+                output["Suffix"] = suffixMap[suf]
+                break
+
+    errors = []
+    for field, value in output.items():
+        if value == "Unknown":
+            errors.append(f"Unknown {field.lower()} value")
+
+    suffix_pattern = r"(?:-(?:K|N|S|C|ABB|I|ATT|P))?"
+    expected_patterns = {
+        "N-": rf"[VNGDA][SPD][MFN]{suffix_pattern}",
+        "A-": rf"[VNGDA][SPD][MFN]{suffix_pattern}",
+        "T-": rf"[VNGDA][SPD][MFN]{suffix_pattern}",
+        "F-": rf"[123][VNGDA][SPD][MFN]{suffix_pattern}",
+    }
+    if pos in expected_patterns and not re.fullmatch(expected_patterns[pos], input_str):
+        errors.append(f"Invalid or incomplete {posMap[pos].lower()} tag structure")
+    elif pos == "S-" and not re.fullmatch(
+        rf"(?:[123][SPD][VNGDA][SPD][MFN]|[VNGDA][SPD][MFN]){suffix_pattern}",
+        input_str,
+    ):
+        errors.append("Invalid or incomplete possessive pronoun tag structure")
+    elif pos in ["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-"] and not re.fullmatch(
+        rf"(?:[123])?[VNGDA][SPD][MFN]?{suffix_pattern}", input_str
+    ):
+        errors.append(f"Invalid or incomplete {posMap[pos].lower()} tag structure")
+
+    if errors:
+        output["Errors"] = list(dict.fromkeys(errors))
 
     return output
 
 
-# Example usage:
-result = decodeTag("N-PRS")
-print(result)
+if __name__ == "__main__":
+    print(decodeTag("N-NSF"))

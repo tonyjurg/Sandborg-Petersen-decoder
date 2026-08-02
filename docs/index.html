@@ -145,7 +145,7 @@
                     output["Tense"] = "Unknown";
                 }
                 // Person/Number or Case/Number/Gender
-                if (parts[1]) {
+                if (parts[1] && output["Mood"] !== "Infinitive") {
                     const sp = parts[1];
                     if (output["Mood"] === "Participle" && sp.length >= 3) {
                         output["Case"] = caseMap[sp[0]] || "Unknown";
@@ -156,14 +156,14 @@
                         output["Number"] = numberMap[sp[1]] || "Unknown";
                     }
                 }
-                // Extra or suffix
-                if (parts[2]) {
-                    const tp = parts[2];
-                    const extraKey = Object.keys(verbExtraMap).find(key => tp.includes(key));
-                    if (extraKey) {
-                        output["Verb Extra"] = verbExtraMap[extraKey];
+                // Infinitives have no person/number segment, so their modifier is second.
+                const modifierIndex = output["Mood"] === "Infinitive" ? 1 : 2;
+                if (parts[modifierIndex]) {
+                    const modifier = `-${parts[modifierIndex]}`;
+                    if (verbExtraMap[modifier]) {
+                        output["Verb Extra"] = verbExtraMap[modifier];
                     } else {
-                        output["Suffix"] = suffixMap[tp] || "Unknown";
+                        output["Suffix"] = suffixMap[modifier] || "Unknown";
                     }
                 }
             }
@@ -195,7 +195,7 @@
 
             // Global suffix check
             const suffix = Object.keys(suffixMap).find(suf => input.endsWith(suf));
-            if (suffix) {
+            if (suffix && !output["Verb Extra"]) {
                 output["Suffix"] = suffixMap[suffix];
             }
 

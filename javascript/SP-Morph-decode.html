@@ -196,7 +196,7 @@
 					}
 				}
 
-				if (parts.length > 1) {
+					if (parts.length > 1 && output["Mood"] !== "Infinitive") {
 					// Analyze the second part: Person, Number (for finite verbs) or Case, Number, Gender (for participles)
 					const secondPart = parts[1];
 					if (output["Mood"] === "Participle" && secondPart.length >= 3) {
@@ -209,14 +209,14 @@
 					}
 				}
 
-				if (parts.length > 2) {
-					// Analyze the third part: Verb extra information or suffix
-					const thirdPart = parts[2];
-					const extraKey = Object.keys(verbExtraMap).find(key => thirdPart.includes(key));
-					if (extraKey) {
-						output["Verb Extra"] = verbExtraMap[extraKey];
-					} else {
-						output["Suffix"] = suffixMap[thirdPart] || "Unknown";
+					// Infinitives have no person/number segment, so their modifier is second.
+					const modifierIndex = output["Mood"] === "Infinitive" ? 1 : 2;
+					if (parts[modifierIndex]) {
+						const modifier = `-${parts[modifierIndex]}`;
+						if (verbExtraMap[modifier]) {
+							output["Verb Extra"] = verbExtraMap[modifier];
+						} else {
+							output["Suffix"] = suffixMap[modifier] || "Unknown";
 					}
 				}
 			}
@@ -255,7 +255,7 @@
 
             // Decode suffix if present
             const suffix = Object.keys(suffixMap).find(suf => input.endsWith(suf));
-            if (suffix) {
+            if (suffix && !output["Verb Extra"]) {
                 output["Suffix"] = suffixMap[suffix];
             }
 
