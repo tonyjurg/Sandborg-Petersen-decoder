@@ -1,4 +1,4 @@
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)  [![Online Tool](https://img.shields.io/badge/online%20tool-%F0%9F%95%B9-blueviolet)](https://tonyjurg.github.io/Sandborg-Petersen-decoder/)  [![DOI](images/zenodo.14551056.svg)](https://doi.org/10.5281/zenodo.14551056) [![SWH](https://archive.softwareheritage.org/badge/origin/https://doi.org/10.5281/zenodo.14551056/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://doi.org/10.5281/zenodo.14551056) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tonyjurg/Sandborg-Petersen-decoder)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)  [![Online Tool](https://img.shields.io/badge/online%20tool-%F0%9F%95%B9-blueviolet)](https://tonyjurg.github.io/Sandborg-Petersen-decoder/)  [![DOI](images/zenodo.14551056.svg)](https://doi.org/10.5281/zenodo.14551056) [![SWH](https://archive.softwareheritage.org/badge/origin/https://doi.org/10.5281/zenodo.14551056/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://doi.org/10.5281/zenodo.14551056) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tonyjurg/Sandborg-Petersen-decoder)
 
 
 <img src="images/logo.png" width=200>
@@ -20,8 +20,13 @@ Two functionaly equivalent coding implementations are stored on this repository:
 
 # Python package
 
-The package is currently being prepared for its first PyPI release. From a source
-checkout it can be installed with:
+After release 1.2 is published, install it from PyPI with:
+
+```shell
+python -m pip install sandborg-petersen-decoder
+```
+
+For development, install the current source checkout with:
 
 ```shell
 python -m pip install .
@@ -56,6 +61,9 @@ The package also provides a command-line interface:
 sp-morph-decode V-PAI-3S --mode strict
 python -m sp_morph_decoder V-PAI-3S
 ```
+
+See the [Python package guide](https://tonyjurg.github.io/Sandborg-Petersen-decoder/python-package.html)
+for installation, API, strict-mode, typing, and command-line documentation.
 
 # Definitional document
  
@@ -157,6 +165,15 @@ See the following small [Jupyter Notebook](create_clickable_links.ipynb) to see 
 # Tag validation agains the MACULA GNT dataset
 
  - See notebook: [Check SP-Morphs in MACULA XML dataset against documentated tags](testing/SP-Morphs-used-in-MACULA.ipynb).
+
+# License
+
+The original software and associated documentation are licensed under the
+[MIT License](LICENSE). MACULA-derived validation data in `testing/output/` and
+data embedded in the validation notebook remain available under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with the required
+MACULA attribution. See [NOTICE.md](NOTICE.md) for the exact scope, attribution,
+and historical-release information.
 
 # Responsible disclosure
 

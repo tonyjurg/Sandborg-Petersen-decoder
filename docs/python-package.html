@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Installation and API guide for the Sandborg-Petersen morphology decoder Python package.">
+    <title>Python Package Guide | Sandborg-Petersen Decoder</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --background: #f5f1e8;
+            --surface: #fffdf8;
+            --text: #26231f;
+            --muted: #655f56;
+            --accent: #76572f;
+            --accent-strong: #513815;
+            --border: #d8cfbf;
+            --code: #201f1d;
+            --code-text: #f8f4eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.65;
+        }
+
+        a {
+            color: var(--accent-strong);
+        }
+
+        header,
+        main,
+        footer {
+            width: min(920px, calc(100% - 2rem));
+            margin-inline: auto;
+        }
+
+        header {
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+        }
+
+        nav a {
+            text-decoration: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2;
+        }
+
+        h1 {
+            max-width: 760px;
+            margin: 0;
+            font-size: clamp(2.2rem, 7vw, 4.5rem);
+            letter-spacing: -0.045em;
+        }
+
+        .lede {
+            max-width: 720px;
+            margin: 1rem 0 0;
+            color: var(--muted);
+            font-size: 1.2rem;
+        }
+
+        section {
+            margin: 1.25rem 0;
+            padding: clamp(1.25rem, 4vw, 2.25rem);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+        }
+
+        section h2:first-child {
+            margin-top: 0;
+        }
+
+        .note {
+            padding: 1rem 1.15rem;
+            border-left: 4px solid var(--accent);
+            background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+        }
+
+        pre {
+            overflow-x: auto;
+            margin: 1rem 0;
+            padding: 1rem 1.1rem;
+            border-radius: 8px;
+            background: var(--code);
+            color: var(--code-text);
+            font: 0.92rem/1.55 Consolas, "Liberation Mono", monospace;
+        }
+
+        code {
+            font-family: Consolas, "Liberation Mono", monospace;
+        }
+
+        :not(pre) > code {
+            padding: 0.12rem 0.3rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--background);
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 0.65rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        footer {
+            padding: 1rem 0 3rem;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: #171613;
+                --surface: #211f1b;
+                --text: #f0eadf;
+                --muted: #bdb4a5;
+                --accent: #d0a76e;
+                --accent-strong: #efc98f;
+                --border: #49443b;
+                --code: #0e0e0d;
+                --code-text: #f8f4eb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Online decoder</a>
+            <a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder">GitHub repository</a>
+            <a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder/issues">Report an issue</a>
+        </nav>
+        <h1>Use the decoder as a Python package</h1>
+        <p class="lede">
+            Decode Sandborg-Petersen morphology tags in scripts, notebooks,
+            data pipelines, or from the command line. Python 3.9 or newer is
+            supported.
+        </p>
+    </header>
+
+    <main>
+        <section id="install">
+            <h2>Installation</h2>
+            <p>
+                The distribution name is <code>sandborg-petersen-decoder</code>;
+                the Python import name is <code>sp_morph_decoder</code>.
+            </p>
+            <p>After release 1.2 is published, install it from PyPI:</p>
+            <pre><code>python -m pip install sandborg-petersen-decoder</code></pre>
+            <p>To use the latest development revision directly from GitHub:</p>
+            <pre><code>python -m pip install "git+https://github.com/tonyjurg/Sandborg-Petersen-decoder.git"</code></pre>
+        </section>
+
+        <section id="quick-start">
+            <h2>Quick start</h2>
+            <pre><code>from sp_morph_decoder import decode_tag
+
+result = decode_tag("V-PAI-3S")
+print(result)</code></pre>
+            <p>The result is a dictionary containing the decoded fields:</p>
+            <pre><code>{
+    'Part of Speech': 'Verb',
+    'Tense': 'Present',
+    'Voice': 'Active',
+    'Mood': 'Indicative',
+    'Person': 'Third Person',
+    'Number': 'Singular'
+}</code></pre>
+            <p>
+                Input is normalized by trimming surrounding whitespace and
+                converting letters to uppercase.
+            </p>
+        </section>
+
+        <section id="modes">
+            <h2>Permissive and strict modes</h2>
+            <h3>Permissive mode</h3>
+            <p>
+                Permissive mode is the default. It returns every field that can
+                be recovered and adds an <code>Errors</code> list when structural
+                validation finds a problem.
+            </p>
+            <pre><code>from sp_morph_decoder import decode_tag
+
+result = decode_tag("N-XYZ")
+for message in result.get("Errors", []):
+    print(message)</code></pre>
+
+            <h3>Strict mode</h3>
+            <p>
+                Strict mode raises <code>MorphologyDecodeError</code> when a tag
+                cannot be decoded cleanly. The exception retains the normalized
+                partial result and individual validation messages.
+            </p>
+            <pre><code>from sp_morph_decoder import MorphologyDecodeError, decode_tag
+
+try:
+    result = decode_tag("N-XYZ", mode="strict")
+except MorphologyDecodeError as error:
+    print(error.tag)       # original input
+    print(error.errors)    # tuple of messages
+    print(error.result)    # partial decoded dictionary</code></pre>
+        </section>
+
+        <section id="api">
+            <h2>Public API</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>decode_tag(tag, *, mode="permissive")</code></td>
+                        <td>Decode one tag and return a dictionary of fields.</td>
+                    </tr>
+                    <tr>
+                        <td><code>decodeTag(tagInput, *, mode="permissive")</code></td>
+                        <td>Backward-compatible camel-case alias.</td>
+                    </tr>
+                    <tr>
+                        <td><code>MorphologyDecodeError</code></td>
+                        <td>Strict-mode exception with <code>tag</code>, <code>errors</code>, and <code>result</code> attributes.</td>
+                    </tr>
+                    <tr>
+                        <td><code>DecodeMode</code></td>
+                        <td>Typing alias for <code>Literal["permissive", "strict"]</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>DecodeResult</code></td>
+                        <td>Typing alias for the returned dictionary.</td>
+                    </tr>
+                    <tr>
+                        <td><code>__version__</code></td>
+                        <td>The installed package version.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="cli">
+            <h2>Command-line interface</h2>
+            <p>The package installs the <code>sp-morph-decode</code> command:</p>
+            <pre><code>sp-morph-decode V-PAI-3S
+sp-morph-decode N-XYZ --mode strict</code></pre>
+            <p>It can also be invoked as a Python module:</p>
+            <pre><code>python -m sp_morph_decoder V-PAI-3S --mode permissive</code></pre>
+            <p>
+                Results are written as formatted JSON. Successful and
+                permissive decodes exit with status 0; a strict validation
+                failure exits with status 2.
+            </p>
+        </section>
+
+        <section id="examples">
+            <h2>Example tags</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Highlights</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>N-NSF</code></td><td>Noun, nominative singular feminine</td></tr>
+                    <tr><td><code>V-PAI-3S</code></td><td>Present active indicative, third-person singular</td></tr>
+                    <tr><td><code>V-RAN-ATT</code></td><td>Perfect active infinitive, Attic form</td></tr>
+                    <tr><td><code>P-1NS</code></td><td>First-person personal pronoun, nominative singular</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            Software and associated documentation are licensed under the
+            <a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder/blob/main/LICENSE">MIT License</a>.
+            See the repository
+            <a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder/blob/main/NOTICE.md">licensing notice</a>
+            for the separate terms covering MACULA-derived validation data.
+        </p>
+    </footer>
+</body>
+</html>

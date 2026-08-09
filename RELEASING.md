@@ -11,8 +11,8 @@ no separate package version string to update.
 
 ## Release procedure
 
-1. Update `version` and `date-released` in `CITATION.cff`, then merge that change
-   into `main`.
+1. Update `version` and `date-released` in `CITATION.cff`, retain `license: MIT`,
+   then merge that change into `main`.
 2. Verify the intended tag locally:
 
    ```shell
@@ -41,4 +41,6 @@ The `Publish version` workflow performs these steps in order:
 
 The GitHub Release is deliberately created only after PyPI succeeds. After
 publication, verify both the PyPI project and the new Zenodo record and DOI
-metadata.
+metadata. The software record should identify MIT as the package license; the
+repository `NOTICE.md` separately preserves the CC BY 4.0 terms and attribution
+for MACULA-derived validation data.

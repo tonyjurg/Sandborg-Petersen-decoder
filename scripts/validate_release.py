@@ -5,7 +5,8 @@ from pathlib import Path
 
 
 TAG_PATTERN = re.compile(r"^v\d+\.\d+(?:\.\d+)?$")
-REQUIRED_FIELDS = ("version", "date-released")
+REQUIRED_FIELDS = ("version", "date-released", "license")
+EXPECTED_LICENSE = "MIT"
 
 
 def read_citation_metadata(path):
@@ -28,6 +29,7 @@ def validation_errors(metadata, tag=None, today=None):
 
     version = metadata["version"]
     release_date_text = metadata["date-released"]
+    license_expression = metadata["license"]
 
     if not TAG_PATTERN.fullmatch(version):
         errors.append(
@@ -36,6 +38,11 @@ def validation_errors(metadata, tag=None, today=None):
     if tag and version != tag:
         errors.append(
             f"CITATION.cff version {version!r} does not match release tag {tag!r}"
+        )
+    if license_expression != EXPECTED_LICENSE:
+        errors.append(
+            "CITATION.cff license must be "
+            f"{EXPECTED_LICENSE!r}, found {license_expression!r}"
         )
 
     try:

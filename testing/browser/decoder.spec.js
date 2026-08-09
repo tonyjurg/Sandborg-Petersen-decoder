@@ -191,3 +191,27 @@ for (const decoderPage of decoderPages) {
     });
   });
 }
+
+test.describe("Python package documentation", () => {
+  test("documents installation, API modes, and CLI usage", async ({ page }) => {
+    await page.goto("/docs/python-package.html");
+
+    await expect(
+      page.getByRole("heading", { name: "Use the decoder as a Python package" }),
+    ).toBeVisible();
+    await expect(page.locator("#install")).toContainText(
+      "python -m pip install sandborg-petersen-decoder",
+    );
+    await expect(page.locator("#modes")).toContainText("Permissive mode");
+    await expect(page.locator("#modes")).toContainText("Strict mode");
+    await expect(page.locator("#api")).toContainText("decode_tag");
+    await expect(page.locator("#cli")).toContainText("sp-morph-decode");
+  });
+
+  test("links back to the online decoder", async ({ page }) => {
+    await page.goto("/docs/python-package.html");
+    await page.getByRole("link", { name: "Online decoder" }).click();
+    await expect(page).toHaveURL(/\/docs\/index\.html$/);
+    await expect(page.getByLabel("Parsing Tag:")).toBeVisible();
+  });
+});

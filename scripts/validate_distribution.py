@@ -10,15 +10,22 @@ from typing import Callable, Iterable, List, Tuple
 
 
 PROJECT_NAME = "sandborg-petersen-decoder"
+EXPECTED_LICENSE = "MIT"
 
 
 def metadata_version(contents: bytes) -> str:
     message = email.message_from_bytes(contents)
     name = message.get("Name")
     version = message.get("Version")
+    license_expression = message.get("License-Expression")
     if name != PROJECT_NAME or not version:
         raise ValueError(
             f"Unexpected package metadata: Name={name!r}, Version={version!r}"
+        )
+    if license_expression != EXPECTED_LICENSE:
+        raise ValueError(
+            "Unexpected package license metadata: "
+            f"License-Expression={license_expression!r}, expected {EXPECTED_LICENSE!r}"
         )
     return version
 

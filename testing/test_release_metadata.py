@@ -15,14 +15,18 @@ class ReleaseMetadataTests(unittest.TestCase):
     def test_current_citation_matches_current_version(self):
         self.assertEqual(
             VALIDATOR.validate_release(
-                ROOT / "CITATION.cff", tag="v1.1", today=date(2026, 8, 9)
+                ROOT / "CITATION.cff", tag="v1.2", today=date(2026, 8, 9)
             ),
             [],
         )
 
     def test_rejects_tag_mismatch(self):
         errors = VALIDATOR.validation_errors(
-            {"version": "v1.2", "date-released": "2026-08-09"},
+            {
+                "version": "v1.2",
+                "date-released": "2026-08-09",
+                "license": "MIT",
+            },
             tag="v1.3",
             today=date(2026, 8, 9),
         )
@@ -33,7 +37,11 @@ class ReleaseMetadataTests(unittest.TestCase):
 
     def test_rejects_invalid_version_and_future_date(self):
         errors = VALIDATOR.validation_errors(
-            {"version": "release-2", "date-released": "2026-08-10"},
+            {
+                "version": "release-2",
+                "date-released": "2026-08-10",
+                "license": "MIT",
+            },
             today=date(2026, 8, 9),
         )
         self.assertIn(
@@ -46,7 +54,21 @@ class ReleaseMetadataTests(unittest.TestCase):
         errors = VALIDATOR.validation_errors({})
         self.assertEqual(
             errors,
-            ["Missing CITATION.cff field(s): version, date-released"],
+            ["Missing CITATION.cff field(s): version, date-released, license"],
+        )
+
+    def test_rejects_non_mit_software_license(self):
+        errors = VALIDATOR.validation_errors(
+            {
+                "version": "v1.2",
+                "date-released": "2026-08-09",
+                "license": "CC-BY-4.0",
+            },
+            today=date(2026, 8, 9),
+        )
+        self.assertEqual(
+            errors,
+            ["CITATION.cff license must be 'MIT', found 'CC-BY-4.0'"],
         )
 
 

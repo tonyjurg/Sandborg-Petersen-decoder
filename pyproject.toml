@@ -11,8 +11,8 @@ dynamic = ["version"]
 description = "Decode Sandborg-Petersen morphology tags for Koine Greek"
 readme = "README.md"
 requires-python = ">=3.9"
-license = "CC-BY-4.0"
-license-files = ["LICENCE.md"]
+license = "MIT"
+license-files = ["LICENSE", "NOTICE.md"]
 authors = [
     { name = "Tony Jurg", email = "114746162+tonyjurg@users.noreply.github.com" },
 ]
@@ -62,7 +62,8 @@ packages = ["src/sp_morph_decoder"]
 [tool.hatch.build.targets.sdist]
 include = [
     "/CITATION.cff",
-    "/LICENCE.md",
+    "/LICENSE",
+    "/NOTICE.md",
     "/README.md",
     "/src",
 ]
