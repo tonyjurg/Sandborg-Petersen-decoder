@@ -15,7 +15,7 @@ class ReleaseMetadataTests(unittest.TestCase):
     def test_current_citation_matches_current_version(self):
         self.assertEqual(
             VALIDATOR.validate_release(
-                ROOT / "CITATION.cff", tag="v1.2", today=date(2026, 8, 9)
+                ROOT / "CITATION.cff", tag="v1.2", today=date(2026, 8, 10)
             ),
             [],
         )
