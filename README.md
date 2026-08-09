@@ -118,6 +118,13 @@ See the following small [Jupyter Notebook](create_clickable_links.ipynb) to see 
 
  - See notebook: [Check SP-Morphs in MACULA XML dataset against documentated tags](testing/SP-Morphs-used-in-MACULA.ipynb).
 
+# Responsible disclosure
+
+AI-assisted tools have been used in a limited capacity to audit this repository, identify possible defects, suggest improvements to the original code, and help
+develop automated tests. All resulting changes are reviewed and tested by the repository maintainer before inclusion. 
+Scholarly interpretation, design decisions, and final responsibility for the code remain with the human author.
+
 # Acknowledgements
 
 - ['Parsing Information for Robinson-like parsing tags Adapted from Ulrik Sandborg-Petersen's Description for Tischendorf 8th'](https://github.com/biblicalhumanities/Nestle1904/blob/master/morph/parsing.txt).
+
