@@ -71,9 +71,9 @@ A descriptive document with parsing information is available via [github.com/bib
 
 # Integrating in HTML page
 
-## Using a JavScript generated button
+## Using a JavaScript generated button
 
-Because the decoder requires JavaScript to function, it is reasonable to embed a link to it directly in any HTML page using a method depending on JavaScript as well. This approach also lets you open it in a new, resizable window of a specified size.
+Because the online decoder requires JavaScript to function, it is reasonable to embed a link to it directly in any HTML page using a method depending on JavaScript as well. This approach also lets you open it in a new, resizable window of a specified size.
 
 The first step is to add a script anywhere inside your &lt;HEAD&gt; section, or at the top of your &lt;BODY&gt; section:
 
