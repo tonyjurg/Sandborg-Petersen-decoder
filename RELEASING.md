@@ -9,12 +9,6 @@ GitHub also provides source ZIP and TAR archives for the tagged revision.
 The Python package version is derived from the Git tag by `hatch-vcs`; there is
 no separate package version string to update.
 
-## One-time PyPI setup
-
-Before creating the first public package tag, complete the Trusted Publisher
-configuration described in [PYPI_SETUP.md](PYPI_SETUP.md). This is the only
-required PyPI authentication setup; the workflow does not store an API token.
-
 ## Release procedure
 
 1. Update `version` and `date-released` in `CITATION.cff`, then merge that change
