@@ -20,7 +20,7 @@ Two functionaly equivalent coding implementations are stored on this repository:
 
 # Python package
 
-After release 1.2 is published, install it from PyPI with:
+Install release 1.2 from PyPI with:
 
 ```shell
 python -m pip install sandborg-petersen-decoder

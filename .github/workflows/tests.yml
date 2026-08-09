@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: [main, pypi-setup]
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_call:

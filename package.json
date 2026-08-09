@@ -1,6 +1,6 @@
 {
   "name": "sandborg-petersen-decoder",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Automated browser behavior tests for the Sandborg-Petersen morphology decoders",
   "scripts": {
