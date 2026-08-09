@@ -17,7 +17,7 @@ jobs:
     name: Audit Python dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Check Python dependencies for known vulnerabilities
         uses: pypa/gh-action-pip-audit@v1.1.0
         with:
@@ -27,7 +27,7 @@ jobs:
     name: Audit JavaScript dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
@@ -43,7 +43,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Reject newly introduced vulnerable dependencies
         uses: actions/dependency-review-action@v5
         with:
