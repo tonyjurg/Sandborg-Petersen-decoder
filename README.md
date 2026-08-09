@@ -124,6 +124,11 @@ AI-assisted tools have been used in a limited capacity to audit this repository,
 develop automated tests. All resulting changes are reviewed and tested by the repository maintainer before inclusion. 
 Scholarly interpretation, design decisions, and final responsibility for the code remain with the human author.
 
+# Version publication
+
+Tagged versions are tested and published automatically as GitHub Releases. See
+[RELEASING.md](RELEASING.md) for the maintainer procedure and Zenodo notes.
+
 # Acknowledgements
 
 - ['Parsing Information for Robinson-like parsing tags Adapted from Ulrik Sandborg-Petersen's Description for Tischendorf 8th'](https://github.com/biblicalhumanities/Nestle1904/blob/master/morph/parsing.txt).

@@ -5,7 +5,7 @@
   "description": "Automated browser behavior tests for the Sandborg-Petersen morphology decoders",
   "scripts": {
     "test": "pnpm run test:python && pnpm run test:browser",
-    "test:python": "python -B -m unittest testing/test_python_decoder.py",
+    "test:python": "python -B -m unittest discover -s testing -p \"test_*.py\"",
     "test:browser": "playwright test",
     "test:browser:headed": "playwright test --headed"
   },
