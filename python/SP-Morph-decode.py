@@ -240,6 +240,14 @@ def decodeTag(tagInput):
             errors.append(f"Unknown {field.lower()} value")
 
     suffix_pattern = r"(?:-(?:K|N|S|C|ABB|I|ATT|P))?"
+    verb_tense_pattern = r"(?:2F|2A|2R|2L|P|I|F|A|R|L|X)"
+    verb_voice_pattern = r"[AMPEDONQX]"
+    verb_modifier_pattern = r"(?:-(?:M|C|T|A|ATT|AP|IRR|K|N|S|ABB|I|P))?"
+    verb_pattern = (
+        rf"{verb_tense_pattern}{verb_voice_pattern}"
+        rf"(?:[ISOMR]-[123][SPD]|N|P-[VNGDA][SPD][MFN])"
+        rf"{verb_modifier_pattern}"
+    )
     expected_patterns = {
         "N-": rf"[VNGDA][SPD][MFN]{suffix_pattern}",
         "A-": rf"[VNGDA][SPD][MFN]{suffix_pattern}",
@@ -248,13 +256,15 @@ def decodeTag(tagInput):
     }
     if pos in expected_patterns and not re.fullmatch(expected_patterns[pos], input_str):
         errors.append(f"Invalid or incomplete {posMap[pos].lower()} tag structure")
+    elif pos == "V-" and not re.fullmatch(verb_pattern, input_str):
+        errors.append("Invalid or incomplete verb tag structure")
     elif pos == "S-" and not re.fullmatch(
         rf"(?:[123][SPD][VNGDA][SPD][MFN]|[VNGDA][SPD][MFN]){suffix_pattern}",
         input_str,
     ):
         errors.append("Invalid or incomplete possessive pronoun tag structure")
     elif pos in ["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-"] and not re.fullmatch(
-        rf"(?:[123])?[VNGDA][SPD][MFN]?{suffix_pattern}", input_str
+        rf"(?:[123][VNGDA][SPD]|[VNGDA][SPD][MFN]){suffix_pattern}", input_str
     ):
         errors.append(f"Invalid or incomplete {posMap[pos].lower()} tag structure")
 

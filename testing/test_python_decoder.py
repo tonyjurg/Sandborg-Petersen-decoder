@@ -64,6 +64,30 @@ class DecodeTagTests(unittest.TestCase):
         self.assertNotIn("Number", result)
         self.assertNotIn("Errors", result)
 
+    def test_rejects_incomplete_verb(self):
+        result = DECODER.decodeTag("V-PAI")
+        self.assertIn("Errors", result)
+        self.assertIn("Invalid or incomplete verb tag structure", result["Errors"])
+
+    def test_rejects_trailing_garbage_after_infinitive_extra(self):
+        result = DECODER.decodeTag("V-RAN-ATT-GARBAGE")
+        self.assertIn("Errors", result)
+        self.assertIn("Invalid or incomplete verb tag structure", result["Errors"])
+
+    def test_rejects_incomplete_pronoun(self):
+        result = DECODER.decodeTag("R-NS")
+        self.assertIn("Errors", result)
+        self.assertIn(
+            "Invalid or incomplete relative pronoun tag structure", result["Errors"]
+        )
+
+    def test_rejects_extra_pronoun_features(self):
+        result = DECODER.decodeTag("P-1NSM")
+        self.assertIn("Errors", result)
+        self.assertIn(
+            "Invalid or incomplete personal pronoun tag structure", result["Errors"]
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
