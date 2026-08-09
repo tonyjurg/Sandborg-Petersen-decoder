@@ -1,0 +1,16 @@
+{
+  "name": "sandborg-petersen-decoder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automated browser behavior tests for the Sandborg-Petersen morphology decoders",
+  "scripts": {
+    "test": "pnpm run test:python && pnpm run test:browser",
+    "test:python": "python -B -m unittest testing/test_python_decoder.py",
+    "test:browser": "playwright test",
+    "test:browser:headed": "playwright test --headed"
+  },
+  "packageManager": "pnpm@11.16.0",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}
