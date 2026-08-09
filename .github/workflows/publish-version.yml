@@ -58,7 +58,7 @@ jobs:
       id-token: write
     steps:
       - name: Download release distributions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: python-package-distributions
           path: dist/
@@ -76,7 +76,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download release distributions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: python-package-distributions
           path: dist/
