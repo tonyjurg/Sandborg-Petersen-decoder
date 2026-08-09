@@ -15,11 +15,11 @@
     <pre id="decodedOutput"></pre>
 
     <script>
-        // Auto-fill from URL and decode immediately if present
+        // Auto-fill from the ?tag=<morphology-code> URL parameter and decode it.
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
-            const tag = params.get('tag');
-            if (tag) {
+            if (params.has('tag')) {
+                const tag = params.get('tag') || '';
                 const inputElem = document.getElementById('tagInput');
                 inputElem.value = tag.trim().toUpperCase();
                 decodeTag();
@@ -197,6 +197,42 @@
             const suffix = Object.keys(suffixMap).find(suf => input.endsWith(suf));
             if (suffix && !output["Verb Extra"]) {
                 output["Suffix"] = suffixMap[suffix];
+            }
+
+            // Match the Python decoder's structural validation and error reporting.
+            const errors = Object.entries(output)
+                .filter(([, value]) => value === "Unknown")
+                .map(([field]) => `Unknown ${field.toLowerCase()} value`);
+
+            const suffixPattern = "(?:-(?:K|N|S|C|ABB|I|ATT|P))?";
+            const verbTensePattern = "(?:2F|2A|2R|2L|P|I|F|A|R|L|X)";
+            const verbVoicePattern = "[AMPEDONQX]";
+            const verbModifierPattern = "(?:-(?:M|C|T|A|ATT|AP|IRR|K|N|S|ABB|I|P))?";
+            const verbPattern = `${verbTensePattern}${verbVoicePattern}`
+                + `(?:[ISOMR]-[123][SPD]|N|P-[VNGDA][SPD][MFN])${verbModifierPattern}`;
+            const expectedPatterns = {
+                "N-": `[VNGDA][SPD][MFN]${suffixPattern}`,
+                "A-": `[VNGDA][SPD][MFN]${suffixPattern}`,
+                "T-": `[VNGDA][SPD][MFN]${suffixPattern}`,
+                "F-": `[123][VNGDA][SPD][MFN]${suffixPattern}`
+            };
+            const matches = pattern => new RegExp(`^(?:${pattern})$`).test(input);
+
+            if (expectedPatterns[pos] && !matches(expectedPatterns[pos])) {
+                errors.push(`Invalid or incomplete ${posMap[pos].toLowerCase()} tag structure`);
+            } else if (pos === "V-" && !matches(verbPattern)) {
+                errors.push("Invalid or incomplete verb tag structure");
+            } else if (pos === "S-" && !matches(
+                `(?:[123][SPD][VNGDA][SPD][MFN]|[VNGDA][SPD][MFN])${suffixPattern}`
+            )) {
+                errors.push("Invalid or incomplete possessive pronoun tag structure");
+            } else if (["P-", "R-", "C-", "D-", "K-", "I-", "X-", "Q-"].includes(pos)
+                && !matches(`(?:[123][VNGDA][SPD]|[VNGDA][SPD][MFN])${suffixPattern}`)) {
+                errors.push(`Invalid or incomplete ${posMap[pos].toLowerCase()} tag structure`);
+            }
+
+            if (errors.length) {
+                output["Errors"] = [...new Set(errors)];
             }
 
             document.getElementById("decodedOutput").textContent = JSON.stringify(output, null, 2);

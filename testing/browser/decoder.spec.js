@@ -1,4 +1,5 @@
 const { test, expect } = require("@playwright/test");
+const knownMorphTags = require("../output/morph_tags.json");
 
 const decoderPages = [
   { name: "published decoder", path: "/docs/index.html" },
@@ -68,6 +69,49 @@ const decodingCases = [
   },
 ];
 
+const validationCases = [
+  {
+    name: "incomplete noun",
+    tag: "N-",
+    errors: ["Invalid or incomplete noun tag structure"],
+  },
+  {
+    name: "unknown noun fields",
+    tag: "N-XYZ",
+    errors: [
+      "Unknown case value",
+      "Unknown number value",
+      "Unknown gender value",
+      "Invalid or incomplete noun tag structure",
+    ],
+  },
+  {
+    name: "trailing noun data",
+    tag: "N-NSF-GARBAGE",
+    errors: ["Invalid or incomplete noun tag structure"],
+  },
+  {
+    name: "incomplete verb",
+    tag: "V-PAI",
+    errors: ["Invalid or incomplete verb tag structure"],
+  },
+  {
+    name: "trailing verb data",
+    tag: "V-RAN-ATT-GARBAGE",
+    errors: ["Invalid or incomplete verb tag structure"],
+  },
+  {
+    name: "incomplete relative pronoun",
+    tag: "R-NS",
+    errors: ["Invalid or incomplete relative pronoun tag structure"],
+  },
+  {
+    name: "trailing personal pronoun data",
+    tag: "P-1NSM",
+    errors: ["Invalid or incomplete personal pronoun tag structure"],
+  },
+];
+
 async function decode(page, decoderPath, tag) {
   await page.goto(decoderPath);
   await page.getByLabel("Parsing Tag:").fill(tag);
@@ -90,6 +134,47 @@ for (const decoderPage of decoderPages) {
       expect(output).not.toHaveProperty("Person");
       expect(output).not.toHaveProperty("Number");
       expect(output).not.toHaveProperty("Suffix");
+    });
+
+    test("decodes a morphology code supplied in the tag URL parameter", async ({ page }) => {
+      const tag = encodeURIComponent("  v-ran-att  ");
+      await page.goto(`${decoderPage.path}?tag=${tag}`);
+
+      await expect(page.getByLabel("Parsing Tag:")).toHaveValue("V-RAN-ATT");
+      const output = JSON.parse(await page.locator("#decodedOutput").innerText());
+      expect(output).toEqual({
+        "Part of Speech": "Verb",
+        Tense: "Perfect",
+        Voice: "Active",
+        Mood: "Infinitive",
+        "Verb Extra": "Attic",
+      });
+    });
+
+    for (const validationCase of validationCases) {
+      test(`reports ${validationCase.name}`, async ({ page }) => {
+        const output = await decode(page, decoderPage.path, validationCase.tag);
+        expect(output.Errors).toEqual(validationCase.errors);
+      });
+    }
+
+    test("decodes every known morphology code without validation errors", async ({ page }) => {
+      await page.goto(decoderPage.path);
+
+      const failures = await page.evaluate((tags) => {
+        const input = document.getElementById("tagInput");
+        const output = document.getElementById("decodedOutput");
+
+        return tags.flatMap((tag) => {
+          input.value = tag;
+          window.decodeTag();
+          const decoded = JSON.parse(output.textContent);
+          const issues = decoded.Errors || [];
+          return issues.length ? [{ tag, issues }] : [];
+        });
+      }, knownMorphTags);
+
+      expect(failures).toEqual([]);
     });
 
     test("shows a message for empty input", async ({ page }) => {
