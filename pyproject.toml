@@ -1,0 +1,68 @@
+[build-system]
+requires = [
+    "hatchling>=1.27",
+    "hatch-vcs>=0.5",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "sandborg-petersen-decoder"
+dynamic = ["version"]
+description = "Decode Sandborg-Petersen morphology tags for Koine Greek"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "CC-BY-4.0"
+license-files = ["LICENCE.md"]
+authors = [
+    { name = "Tony Jurg", email = "114746162+tonyjurg@users.noreply.github.com" },
+]
+keywords = [
+    "biblical-greek",
+    "koine-greek",
+    "linguistics",
+    "morphology",
+    "new-testament",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Text Processing :: Linguistic",
+    "Typing :: Typed",
+]
+
+[project.scripts]
+sp-morph-decode = "sp_morph_decoder.cli:main"
+
+[project.urls]
+Homepage = "https://tonyjurg.github.io/Sandborg-Petersen-decoder/"
+Repository = "https://github.com/tonyjurg/Sandborg-Petersen-decoder"
+Issues = "https://github.com/tonyjurg/Sandborg-Petersen-decoder/issues"
+DOI = "https://doi.org/10.5281/zenodo.14551056"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/sp_morph_decoder/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sp_morph_decoder"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/CITATION.cff",
+    "/LICENCE.md",
+    "/README.md",
+    "/src",
+]

@@ -2,3 +2,8 @@
 node_modules/
 playwright-report/
 test-results/
+.package-venv/
+build/
+dist/
+src/*.egg-info/
+src/sp_morph_decoder/_version.py

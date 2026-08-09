@@ -15,7 +15,50 @@ The online version allows also allows for prefilling the decoder with a specific
 Two functionaly equivalent coding implementations are stored on this repository:
 
    - [HTML with javascript based decoder](https://github.com/tonyjurg/Sandborg-Petersen-decoder/blob/main/javascript/SP-Morph-decode.html)
-   - [Python](https://github.com/tonyjurg/Sandborg-Petersen-decoder/blob/main/python/SP-Morph-decode.py)
+   - [Installable Python package](src/sp_morph_decoder) with a
+     [compatibility script](python/SP-Morph-decode.py)
+
+# Python package
+
+The package is currently being prepared for its first PyPI release. From a source
+checkout it can be installed with:
+
+```shell
+python -m pip install .
+```
+
+Permissive mode is the default. It returns all fields that can be recovered and
+includes an `Errors` list when validation finds a problem:
+
+```python
+from sp_morph_decoder import decode_tag
+
+result = decode_tag("N-XYZ")
+print(result["Errors"])
+```
+
+Strict mode raises `MorphologyDecodeError`. The exception retains the partial
+result and the individual validation messages:
+
+```python
+from sp_morph_decoder import MorphologyDecodeError, decode_tag
+
+try:
+    result = decode_tag("N-XYZ", mode="strict")
+except MorphologyDecodeError as error:
+    print(error.errors)
+    print(error.result)
+```
+
+The package also provides a command-line interface:
+
+```shell
+sp-morph-decode V-PAI-3S --mode strict
+python -m sp_morph_decoder V-PAI-3S
+```
+
+See [PYPI_SETUP.md](PYPI_SETUP.md) for publication status and the one-time
+Trusted Publishing configuration.
 
 # Definitional document
  
@@ -126,8 +169,9 @@ Scholarly interpretation, design decisions, and final responsibility for the cod
 
 # Version publication
 
-Tagged versions are tested and published automatically as GitHub Releases. See
-[RELEASING.md](RELEASING.md) for the maintainer procedure and Zenodo notes.
+Tagged versions are tested and prepared for automatic publication to PyPI and as
+GitHub Releases. See [RELEASING.md](RELEASING.md) for the maintainer procedure,
+PyPI Trusted Publishing setup, and Zenodo notes.
 
 # Acknowledgements
 

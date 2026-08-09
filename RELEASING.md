@@ -2,8 +2,18 @@
 
 Version publication is automated from Git tags. A tag matching `vMAJOR.MINOR`
 or `vMAJOR.MINOR.PATCH` runs the Python and browser test suites, validates the
-release metadata, and publishes a GitHub Release with generated notes. GitHub
-also provides source ZIP and TAR archives for the tagged revision.
+release metadata, builds and verifies the Python wheel and source distribution,
+publishes them to PyPI, and publishes a GitHub Release with generated notes.
+GitHub also provides source ZIP and TAR archives for the tagged revision.
+
+The Python package version is derived from the Git tag by `hatch-vcs`; there is
+no separate package version string to update.
+
+## One-time PyPI setup
+
+Before creating the first public package tag, complete the Trusted Publisher
+configuration described in [PYPI_SETUP.md](PYPI_SETUP.md). This is the only
+required PyPI authentication setup; the workflow does not store an API token.
 
 ## Release procedure
 
@@ -13,6 +23,8 @@ also provides source ZIP and TAR archives for the tagged revision.
 
    ```shell
    python scripts/validate_release.py --tag v1.2
+   python -m build
+   python -m twine check dist/*
    pnpm test
    ```
 
@@ -25,7 +37,14 @@ also provides source ZIP and TAR archives for the tagged revision.
    git push origin v1.2
    ```
 
-The `Publish version` workflow publishes the release only after all checks pass.
-If this repository is enabled in the Zenodo GitHub integration, Zenodo will then
-ingest the GitHub Release and create the corresponding archived software version.
-After publication, verify the new Zenodo record and DOI metadata.
+The `Publish version` workflow performs these steps in order:
+
+1. Run the complete test workflow.
+2. Build and verify the PyPI distributions against the tag.
+3. Publish the package through PyPI Trusted Publishing.
+4. Create the GitHub Release with generated notes.
+5. Let the enabled Zenodo GitHub integration ingest that release.
+
+The GitHub Release is deliberately created only after PyPI succeeds. After
+publication, verify both the PyPI project and the new Zenodo record and DOI
+metadata.

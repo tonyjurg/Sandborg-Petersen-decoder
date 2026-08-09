@@ -19,9 +19,55 @@ jobs:
     permissions:
       contents: read
 
-  publish:
-    name: Publish GitHub release
+  build:
+    name: Build release distributions
     needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - name: Validate release metadata
+        run: python scripts/validate_release.py --tag "$GITHUB_REF_NAME"
+      - name: Install build tools
+        run: python -m pip install build twine
+      - name: Build wheel and source distribution
+        run: python -m build
+      - name: Validate distribution metadata
+        run: |
+          python -m twine check dist/*
+          python scripts/validate_distribution.py --tag "$GITHUB_REF_NAME" --directory dist
+      - name: Store release distributions
+        uses: actions/upload-artifact@v5
+        with:
+          name: python-package-distributions
+          path: dist/
+          if-no-files-found: error
+
+  publish-pypi:
+    name: Publish package to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/sandborg-petersen-decoder
+    permissions:
+      id-token: write
+    steps:
+      - name: Download release distributions
+        uses: actions/download-artifact@v6
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distributions with Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-release:
+    name: Publish GitHub release
+    needs: publish-pypi
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,11 +75,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v6
+      - name: Download release distributions
+        uses: actions/download-artifact@v6
         with:
-          python-version: "3.x"
-      - name: Validate release metadata
-        run: python scripts/validate_release.py --tag "$GITHUB_REF_NAME"
+          name: python-package-distributions
+          path: dist/
       - name: Publish release with generated notes
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,4 +92,5 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --verify-tag \
             --generate-notes \
-            --title "$GITHUB_REF_NAME"
+            --title "$GITHUB_REF_NAME" \
+            dist/*
