@@ -57,9 +57,6 @@ sp-morph-decode V-PAI-3S --mode strict
 python -m sp_morph_decoder V-PAI-3S
 ```
 
-See [PYPI_SETUP.md](PYPI_SETUP.md) for publication status and the one-time
-Trusted Publishing configuration.
-
 # Definitional document
  
 A descriptive document with parsing information is available via [github.com/biblicalhumanities](https://github.com/biblicalhumanities/Nestle1904/blob/master/morph/parsing.txt).
