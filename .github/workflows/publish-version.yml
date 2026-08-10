@@ -41,7 +41,7 @@ jobs:
           python -m twine check dist/*
           python scripts/validate_distribution.py --tag "$GITHUB_REF_NAME" --directory dist
       - name: Store release distributions
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: python-package-distributions
           path: dist/
