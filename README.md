@@ -10,6 +10,8 @@ This lightweight decoder implements the Sandborg-Petersen morphology schema for 
 You can try it online at [https://tonyjurg.github.io/Sandborg-Petersen-decoder/](https://tonyjurg.github.io/Sandborg-Petersen-decoder/). 
 The online version allows also allows for prefilling the decoder with a specific tag by appending `?tag=<TAG>` (for example, <a href="https://tonyjurg.github.io/Sandborg-Petersen-decoder/?tag=N-NSF" target="_blank">`?tag=N-NSF`</a>).
 
+A descriptive document on the Sandborg-Petersen decoder can be found on [academia.edu](https://www.academia.edu/126540053/Decoder_for_the_Sandborg_Petersen_Morphology).
+
 # Decoder formats
 
 Two functionaly equivalent coding implementations are stored on this repository:
