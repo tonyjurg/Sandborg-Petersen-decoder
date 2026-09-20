@@ -48,6 +48,7 @@ CASE_MAP = {
 }
 
 NUMBER_MAP = {"S": "Singular", "P": "Plural", "D": "Dual"}
+# Grammatical gender of the decoded word; not personal demographic data.
 GENDER_MAP = {"M": "Masculine", "F": "Feminine", "N": "Neuter"}
 
 TENSE_MAP = {
