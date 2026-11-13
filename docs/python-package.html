@@ -145,6 +145,27 @@
             font-size: 0.92rem;
         }
 
+        .project-credit {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .project-credit img {
+            display: block;
+            object-fit: contain;
+        }
+
+        .project-credit:hover span,
+        .project-credit:focus-visible span {
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+        }
+
         @media (prefers-color-scheme: dark) {
             :root {
                 --background: #171613;
@@ -156,6 +177,10 @@
                 --border: #49443b;
                 --code: #0e0e0d;
                 --code-text: #f8f4eb;
+            }
+
+            .project-credit img {
+                filter: invert(1);
             }
         }
     </style>
@@ -318,6 +343,10 @@ sp-morph-decode N-XYZ --mode strict</code></pre>
             <a href="https://github.com/tonyjurg/Sandborg-Petersen-decoder/blob/main/NOTICE.md">licensing notice</a>
             for the separate terms covering MACULA-derived validation data.
         </p>
+        <a class="project-credit" href="https://www.tj-engineering.nl/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/tj-engineering.png" width="32" height="32" alt="">
+            <span>a TJ Engineering project</span>
+        </a>
     </footer>
 </body>
 </html>
