@@ -1,0 +1,194 @@
+{
+  "repo_notes": [
+    {
+      "content": "This repository provides a lightweight, dual-implementation decoder for the Sandborg-Petersen morphological tagging schema used with Koine Greek (especially New Testament texts such as Nestle 1904 and Tischendorf 8th edition). It consists of three complementary deliverables: (1) a production-ready Python package published on PyPI, (2) a pure client-side JavaScript/HTML decoder, and (3) a live online tool hosted on GitHub Pages. The two code implementations are functionally equivalent and share the same mapping tables and decoding logic. Emphasize the distinction between the products while highlighting their parity and the easy integration paths between them."
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "High-level introduction to the Sandborg-Petersen Morphology Decoder. Explain what the tool does (converts compact SP tags such as N-NSF or V-PAI-3S into human-readable grammatical descriptions), why it exists, the three main ways to use it (online tool, Python package, standalone JavaScript), and the academic context. Provide clear entry points for different user types (biblical scholars, digital humanists, developers).",
+      "page_notes": [
+        {
+          "content": "Lead with the online tool URL (https://tonyjurg.github.io/Sandborg-Petersen-decoder/) and the ability to deep-link with ?tag=. Clearly state that Python and JavaScript implementations are distinct but equivalent. Mention PyPI package name (sandborg-petersen-decoder) and import name (sp_morph_decoder). Link to child pages for Getting Started, Architecture, and Licensing."
+        }
+      ]
+    },
+    {
+      "title": "Project Background, Schema & Licensing",
+      "purpose": "Document the academic origin of the Sandborg-Petersen schema (adapted from Ulrik Sandborg-Petersen’s descriptions for Tischendorf 8th / Nestle 1904), the relationship to Robinson-like tags, citation requirements (CITATION.cff + Zenodo DOI 10.5281/zenodo.14551056), and the dual-license situation (MIT for the software; CC BY 4.0 for MACULA-derived validation data).",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": "Include the exact citation metadata, required attribution links, and a note about the NOTICE.md file. Point to the original parsing.txt document on biblicalhumanities/Nestle1904. Clarify that the decoder itself is MIT-licensed while validation datasets carry CC BY 4.0 obligations."
+        }
+      ]
+    },
+    {
+      "title": "Getting Started",
+      "purpose": "Practical onboarding for the three main usage modes: (1) the live online decoder, (2) the installable Python package, and (3) the standalone JavaScript/HTML file. Include quick examples for each.",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": "Structure as three clear subsections. For the online tool show the ?tag= deep-link pattern. For Python show pip install + the decode_tag() one-liner and the CLI. For JavaScript point to both the published GitHub Pages version and the local javascript/SP-Morph-decode.html file."
+        }
+      ]
+    },
+    {
+      "title": "Online Tool (GitHub Pages)",
+      "purpose": "Detailed guide to the hosted web decoder at https://tonyjurg.github.io/Sandborg-Petersen-decoder/. Cover the user interface, URL query-parameter deep-linking (?tag=), and how to embed or link to it from other pages.",
+      "parent": "Getting Started",
+      "page_notes": [
+        {
+          "content": "Explain the openMinimalWindow() popup pattern, the target=\"decoder\" reuse technique, and the Jupyter/pandas clickable-link pattern demonstrated in create_clickable_links.ipynb. Note limitations inside Jupyter’s security sandbox."
+        }
+      ]
+    },
+    {
+      "title": "Python Package",
+      "purpose": "Complete reference for the production Python package (sandborg-petersen-decoder on PyPI). Cover installation, the public API (decode_tag / decodeTag), permissive vs strict modes, the MorphologyDecodeError exception, typing aliases, the command-line interface, and the compatibility script.",
+      "parent": "Getting Started",
+      "page_notes": [
+        {
+          "content": "Highlight the distinction between the modern package (src/sp_morph_decoder) and the legacy compatibility script (python/SP-Morph-decode.py). Document both permissive (default, returns Errors list) and strict (raises MorphologyDecodeError) modes. Include CLI examples (sp-morph-decode and python -m sp_morph_decoder)."
+        }
+      ]
+    },
+    {
+      "title": "JavaScript / HTML Decoder",
+      "purpose": "Deep dive into the client-side implementation: docs/index.html (the published GitHub Pages version) and javascript/SP-Morph-decode.html (standalone). Describe the DOM interface, decodeTag() lifecycle, and how the same mapping tables are used.",
+      "parent": "Getting Started",
+      "page_notes": [
+        {
+          "content": "Contrast the two HTML files. Cover URL parameter handling, the sequential parsing paths (POS identification → nominal/verbal/pronoun/suffix), and how the JavaScript version stays in sync with the Python logic."
+        }
+      ]
+    },
+    {
+      "title": "Decoder Architecture",
+      "purpose": "Explain the shared design of the dual implementations: common tag format, the set of mapping tables, the “first-match” POS strategy, and the branching logic for different parts of speech. Emphasize that Python and JavaScript are deliberately kept equivalent.",
+      "page_notes": [
+        {
+          "content": "Make the dual-implementation nature prominent. Note that mapping tables and parsing order are intentionally duplicated so each implementation can stand alone."
+        }
+      ]
+    },
+    {
+      "title": "Tag Format & Mapping Tables",
+      "purpose": "Authoritative reference for the Sandborg-Petersen tag string format (prefix + hyphen-delimited segments) and every mapping table used by both implementations (posMap, caseMap, numberMap, genderMap, tenseMap, voiceMap, moodMap, personMap, verbExtraMap, suffixMap).",
+      "parent": "Decoder Architecture",
+      "page_notes": [
+        {
+          "content": "Document the “first match” strategy for POS prefixes (e.g. N-PRI before N-). Describe the different structural patterns for nouns, verbs, pronouns, and special forms (infinitives, participles, indeclinables). Provide representative examples for each major category."
+        }
+      ]
+    },
+    {
+      "title": "Python Implementation Details",
+      "purpose": "Technical deep-dive into the Python package and compatibility script: sequential parsing pipeline, validation layer, error reporting via the Errors key (permissive) or MorphologyDecodeError (strict), and the public API surface.",
+      "parent": "Decoder Architecture",
+      "page_notes": [
+        {
+          "content": "Cover both the package entry point (sp_morph_decoder) and the legacy script. Explain normalization (strip + upper-case), the order of parsing stages, and how partial results are retained even when validation fails."
+        }
+      ]
+    },
+    {
+      "title": "JavaScript Implementation Details",
+      "purpose": "Technical deep-dive into the browser-based decoder: DOM elements (tagInput, decodeButton, decodedOutput), URL query-parameter handling, the decodeTag() function, and the PoS-specific parsing paths.",
+      "parent": "Decoder Architecture",
+      "page_notes": [
+        {
+          "content": "Detail how the two HTML files differ (published vs standalone). Document the event listeners, the rendering of decoded fields, and how deep-linking with ?tag= works."
+        }
+      ]
+    },
+    {
+      "title": "Integration Patterns",
+      "purpose": "Practical recipes for embedding the decoder in external tools, notebooks, and web pages. Cover the popup window pattern, named-window reuse (target=\"decoder\"), and the pandas/IPython workflow for generating interactive tables of clickable morph tags.",
+      "parent": "Decoder Architecture",
+      "page_notes": [
+        {
+          "content": "Reproduce the key code snippets from the README and create_clickable_links.ipynb. Note the behavioral difference between ordinary browsers and Jupyter’s sandbox regarding window name reuse."
+        }
+      ]
+    },
+    {
+      "title": "Testing & Validation",
+      "purpose": "Overview of the multi-track quality strategy: Python unit tests, Playwright browser tests, and the MACULA GNT coverage notebook. Explain how the project guarantees parity between the Python and JavaScript implementations.",
+      "page_notes": [
+        {
+          "content": "Stress that the two implementations are tested against the same set of cases and against real-world data from the MACULA Greek New Testament."
+        }
+      ]
+    },
+    {
+      "title": "Python Unit Tests",
+      "purpose": "Describe testing/test_python_decoder.py (or the current equivalent): dynamic module loading, the matrix of valid and invalid tags, verb extras, infinitives, pronouns, and how to run the suite locally.",
+      "parent": "Testing & Validation",
+      "page_notes": [
+        {
+          "content": "List the main categories of test cases (successful decodes, incomplete tags, garbage input, special verb forms). Show the recommended invocation (python -m unittest or pytest if used)."
+        }
+      ]
+    },
+    {
+      "title": "Browser Behavior Tests (Playwright)",
+      "purpose": "Document the Playwright test suite (testing/browser/decoder.spec.js and playwright.config.js): the test matrix covering both decoder pages, the decode() helper, local HTTP server setup, Chromium configuration, and how to run headed or headless.",
+      "parent": "Testing & Validation",
+      "page_notes": [
+        {
+          "content": "Explain the dual-page testing strategy (GitHub Pages version + standalone HTML) and the pnpm scripts (test:browser, test:browser:headed)."
+        }
+      ]
+    },
+    {
+      "title": "MACULA Validation Notebook & Outputs",
+      "purpose": "Explain the notebook that validates decoder coverage against the MACULA GNT (Nestle 1904) dataset and the four JSON artifacts produced in testing/output/ (morph_tags.json, morph_tag_frequencies.json, fully_decoded_tags.json, undecoded_tags.json).",
+      "parent": "Testing & Validation",
+      "page_notes": [
+        {
+          "content": "Clarify the purpose of each JSON file and how the notebook is used to detect gaps in the mapping tables or parsing logic."
+        }
+      ]
+    },
+    {
+      "title": "CI/CD & Project Tooling",
+      "purpose": "Overview of the automated quality pipeline and the development toolchain that keeps the Python and JavaScript implementations in sync.",
+      "page_notes": [
+        {
+          "content": "Highlight the parallel jobs that exercise both language implementations on every push/PR."
+        }
+      ]
+    },
+    {
+      "title": "GitHub Actions Workflow",
+      "purpose": "Walk through .github/workflows/tests.yml: triggers, the parallel python and browser jobs, dependency installation, Playwright report artifact upload, and how the workflow enforces cross-implementation consistency.",
+      "parent": "CI/CD & Project Tooling",
+      "page_notes": [
+        {
+          "content": "Note the 14-day retention of the playwright-report artifact and any matrix or caching strategies in use."
+        }
+      ]
+    },
+    {
+      "title": "Node.js / pnpm Tooling",
+      "purpose": "Document the front-end development setup: package.json scripts (test, test:python, test:browser, test:browser:headed), pnpm-lock.yaml discipline, .gitignore exclusions, and the images/ assets used in documentation.",
+      "parent": "CI/CD & Project Tooling",
+      "page_notes": [
+        {
+          "content": "Explain why a Node toolchain is present even though the core decoder logic is dual-language."
+        }
+      ]
+    },
+    {
+      "title": "Glossary",
+      "purpose": "Definitions of all codebase-specific terms, linguistic categories, abbreviations, and domain concepts needed by both engineers and linguists. Each entry should include code or file pointers where relevant.",
+      "page_notes": [
+        {
+          "content": "Cover SP Tag, PoS, the major mapping tables, permissive vs strict mode, MorphologyDecodeError, deep-link, MACULA, Nestle 1904, Tischendorf 8th, and any other recurring terms. Keep entries concise but precise."
+        }
+      ]
+    }
+  ]
+}
